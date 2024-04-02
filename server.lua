@@ -24,7 +24,7 @@ AddEventHandler('hw_mining:getItem', function()
     local xPlayer = ESX.GetPlayerFromId(source)
     local randomItem = Config.Items[math.random(1, #Config.Items)]
     if math.random(0, 100) <= Config.ChanceToGetItem then
-        xPlayer.addInventoryItem(randomItem, 2)
+        xPlayer.addInventoryItem(randomItem, math.random(1, 5))
         if Config.Debug then
             print('^0[^1DEBUG^0] ^5Player: ^3' .. xPlayer.getIdentifier() .. ' ^5collected the following item(s): ^3' .. randomItem)
         end
@@ -53,5 +53,16 @@ AddEventHandler('hw_mining:sell', function()
             end
             SendDiscordLog("Selling Item", "Player " .. xPlayer.getIdentifier() .. " sold " .. item.count .. "x " .. ESX.GetItemLabel(k) .. ".", 65280)
         end
+    end
+end)
+
+ESX.RegisterServerCallback('hw_mining:checkForPickaxe', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local pickaxe = xPlayer.getInventoryItem('pickaxe').count
+
+    if pickaxe > 0 then
+        cb(true)
+    else
+        cb(false)
     end
 end)
