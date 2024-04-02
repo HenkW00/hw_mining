@@ -24,11 +24,29 @@ AddEventHandler('hw_mining:getItem', function()
     local xPlayer = ESX.GetPlayerFromId(source)
     local randomItem = Config.Items[math.random(1, #Config.Items)]
     if math.random(0, 100) <= Config.ChanceToGetItem then
-        xPlayer.addInventoryItem(randomItem, math.random(1, 5))
-        if Config.Debug then
-            print('^0[^1DEBUG^0] ^5Player: ^3' .. xPlayer.getIdentifier() .. ' ^5collected the following item(s): ^3' .. randomItem)
+        if xPlayer.canCarryItem(randomItem, 1) then
+            xPlayer.addInventoryItem(randomItem, math.random(1, 5))
+            if Config.Debug then
+                print('^0[^1DEBUG^0] ^5Player: ^3' .. xPlayer.getIdentifier() .. ' ^5collected the following item(s): ^3' .. randomItem)
+            end
+            SendDiscordLog("Received Item", "Player " .. xPlayer.getIdentifier() .. " collected " .. randomItem .. ".")
+        else
+            TriggerClientEvent('esx:showNotification', source, "~r~Your inventory is full.")
         end
-        SendDiscordLog("Received Item", "Player " .. xPlayer.getIdentifier() .. " collected " .. randomItem .. ".")
+    end
+end)
+
+RegisterServerEvent('hw_mining:buyItem')
+AddEventHandler('hw_mining:buyItem', function(item)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local price = Config.ShopItems[item].price
+
+    if xPlayer.getMoney() >= price then
+        xPlayer.removeMoney(price)
+        xPlayer.addInventoryItem(item, 1)
+        TriggerClientEvent('esx:showNotification', source, "You purchased a " .. item)
+    else
+        TriggerClientEvent('esx:showNotification', source, "You don't have enough money.")
     end
 end)
 

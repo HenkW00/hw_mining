@@ -80,6 +80,64 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        local waitTime = 500 
+
+        local playerCoords = GetEntityCoords(PlayerPedId())
+        local distanceToShop = #(playerCoords - Config.ShopLocation) 
+
+        if distanceToShop < 5 then
+            helpText("Press ~INPUT_CONTEXT~ to open the shop.") 
+
+            if IsControlJustReleased(0, 38) then 
+                openShopMenu() 
+            end
+            
+            waitTime = 0 
+        end
+
+        Citizen.Wait(waitTime)
+    end
+end)
+
+Citizen.CreateThread(function()
+    local shopBlip = AddBlipForCoord(Config.ShopLocation.x, Config.ShopLocation.y, Config.ShopLocation.z)
+    SetBlipSprite(shopBlip, 52) 
+    SetBlipDisplay(shopBlip, 4) 
+    SetBlipScale(shopBlip, 0.8) 
+    SetBlipColour(shopBlip, 2) 
+    SetBlipAsShortRange(shopBlip, true)
+
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName("Shop")
+    EndTextCommandSetBlipName(shopBlip)
+end)
+
+function openShopMenu()
+    local elements = {}
+    for item, data in pairs(Config.ShopItems) do
+        table.insert(elements, {label = item .. " - $" .. data.price, value = item})
+    end
+
+    ESX.UI.Menu.CloseAll()
+
+    ESX.UI.Menu.Open(
+        'default', GetCurrentResourceName(), 'shop_menu',
+        {
+            title = 'Shop',
+            align = 'top-left',
+            elements = elements,
+        },
+        function(data, menu)
+            TriggerServerEvent('hw_mining:buyItem', data.current.value)
+        end,
+        function(data, menu)
+            menu.close()
+        end
+    )
+end
+
 loadModel = function(model)
     while not HasModelLoaded(model) do Wait(0) RequestModel(model) end
     return model

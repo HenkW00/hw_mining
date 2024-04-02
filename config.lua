@@ -19,6 +19,16 @@ Config.Prices = {
 }
 
 ------------------
+-------SHOP-------
+------------------
+Config.ShopLocation = vector3(2948.41, 2741.81, 43.58)
+Config.ShopItems = {
+    ['water'] = {price = 150},
+    ['bread'] = {price = 150},
+    ['pickaxe'] = {price = 1000}
+}
+
+------------------
 ---ITEMS / SELL---
 ------------------
 Config.Sell = vector3(-97.12, -1013.8, 26.3)
