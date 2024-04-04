@@ -19,6 +19,9 @@ Citizen.CreateThread(function()
                 helpText(Strings['e_sell'])
                 if IsControlJustReleased(0, 38) then
                     TriggerServerEvent('hw_mining:sell')
+                    if Config.Debug then
+                        print('^0[^1DEBUG^0] ^5Succesfully ^2sold ^5items at ^3selling location!^0')
+                    end
                 end
             end
             Wait(sleep)
@@ -38,6 +41,9 @@ Citizen.CreateThread(function()
                 helpText(Strings['press_mine'])
                 if IsControlJustReleased(0, 38) then
                     ESX.TriggerServerCallback('hw_mining:checkForPickaxe', function(hasPickaxe)
+                        if Config.Debug then
+                            print('^0[^1DEBUG^0] ^5Checking for ^3pickaxe..^0')
+                        end
                         if hasPickaxe then
                             local player, distance = ESX.Game.GetClosestPlayer()
                             if distance == -1 or distance >= 4.0 then
@@ -62,6 +68,9 @@ Citizen.CreateThread(function()
                                         while GetGameTimer() <= timer do Wait(0) DisableControlAction(0, 24, true) end
                                         ClearPedTasks(PlayerPedId())
                                         TriggerServerEvent('hw_mining:getItem')
+                                        if Config.Debug then
+                                            print('^0[^1DEBUG^0] ^5Received mined item into ^2inventory^0')
+                                        end
                                     elseif IsControlJustReleased(0, 194) then
                                         break
                                     end
@@ -71,9 +80,15 @@ Citizen.CreateThread(function()
                                 FreezeEntityPosition(PlayerPedId(), false)
                             else
                                 ESX.ShowNotification(Strings['someone_close'])
+                                if Config.Debug then
+                                    print('^0[^1DEBUG^0] ^5There are players nearby youre spot!^0')
+                                end
                             end
                         else
                             ESX.ShowNotification(Strings['need_pickaxe'])
+                            if Config.Debug then
+                                print('^0[^1DEBUG^0] ^5Missing item: ^3"pickaxe" ^5to mine!^0')
+                            end
                         end
                     end)
                 end
@@ -94,10 +109,13 @@ Citizen.CreateThread(function()
         local distanceToShop = #(playerCoords - Config.ShopLocation) 
 
         if distanceToShop < 5 then
-            helpText(Strings['open_shop']) 
+            helpText(Strings['open_shop'])
 
             if IsControlJustReleased(0, 38) then 
-                openShopMenu() 
+                openShopMenu()
+                if Config.Debug then
+                    print('^0[^1DEBUG^0] ^5Retreived event: ^3"OpenMiningShop" ^5for player!^0')
+                end  
             end
             
             waitTime = 0 
@@ -143,6 +161,9 @@ function openShopMenu()
         },
         function(data, menu)
             TriggerServerEvent('hw_mining:buyItem', data.current.value)
+            if Config.Debug then
+                print('^0[^1DEBUG^0] ^5Succesfully ^2bought ^5item(s) at ^3mining shop!^0')
+            end 
         end,
         function(data, menu)
             menu.close()

@@ -3,9 +3,9 @@ Config = {}
 -------------------
 -------UTILS-------
 -------------------
-Config.Debug = false -- Enable/Disable debug | It kinda spams console so be aware if you have a busy server
+Config.Debug = true -- Enable/Disable debug | It kinda spams console so be aware if you have a busy server
 Config.checkForUpdates = true -- Recommended to leave as 'true'
-Config.Webhook = "https://discord.com/api/webhooks/1224011727998419096/feWWd1yKUTEkMv648yn9rSxmrkZMbsPL0VaG5-8gK_7Mj4EszkIvyinJAXTE3GcbCqOz" -- Webhook for discord logging
+Config.Webhook = "https://discord.com/api/webhooks/1223833417481715844/NxYyA41pkfmEsl6yfyBofAE391oigVX3v064j9QDE2cKCPtw5LaSQaGfQkbjIx76QxJL" -- Webhook for discord logging
 Config.MiningCooldown = 1 -- Cooldown in seconds
 Config.MaxMiningDistance = 1 -- Max mining distance
 
@@ -28,7 +28,7 @@ Config.ShopLocation = vector3(2948.41, 2741.81, 43.58) -- Location for buying eq
 Config.ShopItems = { -- Add or remove items needed for the shop
     ['water'] = {price = 150},
     ['bread'] = {price = 150},
-    ['pickaxe'] = {price = 1000}
+    ['pickaxe'] = {price = 1000},
 }
 
 ------------------
@@ -99,6 +99,7 @@ Strings = {
     ['zone'] = '~r~You are not in a valid mining area.',
     ['buy_a'] = '~y~You purchased a ',
     ['not_enough'] = '~r~You dont have enough money.',
+    ['no_items'] = '~r~You dont have any items to sell.',
     ['mining'] = 'Mining',
     ['sell_mine'] = 'Sell mined items'
 }
@@ -116,6 +117,7 @@ Strings = {
 --     ['zone'] = '~r~You are not in a valid mining area.',
 --     ['buy_a'] = '~y~You purchased a ',
 --     ['not_enough'] = '~r~You dont have enough money.',
+--     ['no_items'] = '~r~You dont have any items to sell.',
 --     ['mining'] = 'Mining',
 --     ['sell_mine'] = 'Verkoop gemijnde items'
 -- }
@@ -133,6 +135,7 @@ Strings = {
 --     ['zone'] = '~r~You are not in a valid mining area.',
 --     ['buy_a'] = '~y~You purchased a ',
 --     ['not_enough'] = '~r~You dont have enough money.',
+--     ['no_items'] = '~r~You dont have any items to sell.',
 --     ['mining'] = 'Minage',
 --     ['sell_mine'] = 'Vendre les articles minés'
 -- }
@@ -150,6 +153,7 @@ Strings = {
 --     ['zone'] = '~r~You are not in a valid mining area.',
 --     ['buy_a'] = '~y~You purchased a ',
 --     ['not_enough'] = '~r~You dont have enough money.',
+--     ['no_items'] = '~r~You dont have any items to sell.',
 --     ['mining'] = 'Bergbau',
 --     ['sell_mine'] = 'Abgebaute Artikel verkaufen'
 -- }
