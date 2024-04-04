@@ -16,8 +16,6 @@ Config.Prices = {
     ['copper'] = {50, 60},
     ['gold'] = {70, 95},
     ['emerald'] = {145, 170},
-    ['stone'] = {20, 30},
-    ['coal'] = {30, 40},
 }
 
 ------------------
@@ -41,8 +39,6 @@ Config.Items = {
     'copper',
     'emerald',
     'gold',
-    'stone',
-    'coal',
 }
 
 -------------------

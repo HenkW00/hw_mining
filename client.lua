@@ -1,18 +1,13 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-local isMining = false
-local miningCooldown = 5000
+local mining = false
 
 Citizen.CreateThread(function()
     while ESX.GetPlayerData().job == nil do Wait(0) end
-
-    -- Adding blips for mining positions and sell point
     for k, v in pairs(Config.MiningPositions) do
         addBlip(v.coords, 85, 5, Strings['mining'])
     end
     addBlip(Config.Sell, 207, 2, Strings['sell_mine'])
-
-    -- Sell point proximity check thread
     Citizen.CreateThread(function()
         while true do
             local sleep = 250
@@ -26,8 +21,6 @@ Citizen.CreateThread(function()
             Wait(sleep)
         end
     end)
-
-    -- Main mining logic with cooldown implementation
     while true do
         local closeTo = 0
         for k, v in pairs(Config.MiningPositions) do
@@ -36,13 +29,11 @@ Citizen.CreateThread(function()
                 break
             end
         end
-
         if type(closeTo) == 'table' then
             while GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), closeTo.coords, true) <= 2.5 do
                 Wait(0)
                 helpText(Strings['press_mine'])
-                if IsControlJustReleased(0, 38) and not isMining then
-                    isMining = true
+                if IsControlJustReleased(0, 38) then
                     ESX.TriggerServerCallback('hw_mining:checkForPickaxe', function(hasPickaxe)
                         if hasPickaxe then
                             local player, distance = ESX.Game.GetClosestPlayer()
@@ -58,39 +49,34 @@ Citizen.CreateThread(function()
                 
                                 while mining do
                                     Wait(0)
-                                    SetCurrentPedWeapon(PlayerPedId(), GetHashKey('WEAPON_UNARMED'), true)
+                                    SetCurrentPedWeapon(PlayerPedId(), GetHashKey('WEAPON_UNARMED'))
                                     helpText(Strings['mining_info'])
-                                    DisableControlAction(0, 24, true) -- Disable attack
+                                    DisableControlAction(0, 24, true)
                                     if IsDisabledControlJustReleased(0, 24) then
                                         local dict = loadDict('melee@hatchet@streamed_core')
-                                        TaskPlayAnim(PlayerPedId(), dict, 'plyr_rear_takedown_b', 8.0, -8.0, -1, 50, 0, false, false, false)
+                                        TaskPlayAnim(PlayerPedId(), dict, 'plyr_rear_takedown_b', 8.0, -8.0, -1, 2, 0, false, false, false)
                                         local timer = GetGameTimer() + 800
                                         while GetGameTimer() <= timer do Wait(0) DisableControlAction(0, 24, true) end
                                         ClearPedTasks(PlayerPedId())
                                         TriggerServerEvent('hw_mining:getItem')
                                     elseif IsControlJustReleased(0, 194) then
-                                        mining = false
+                                        break
                                     end
                                 end
-                
                                 mining = false
                                 DeleteObject(axe)
                                 FreezeEntityPosition(PlayerPedId(), false)
-                                -- Start cooldown (prevents re-triggering immediately)
-                                Citizen.SetTimeout(miningCooldown, function() isMining = false end)
                             else
                                 ESX.ShowNotification(Strings['someone_close'])
-                                isMining = false -- Reset immediately if someone is close
                             end
                         else
                             ESX.ShowNotification("~r~You need a pickaxe to mine.")
-                            isMining = false -- Reset immediately if no pickaxe
                         end
                     end)
                 end
             end
         end
-        Wait(250) -- This was missing in your loop control
+        Wait(250)
     end
 end)
 
