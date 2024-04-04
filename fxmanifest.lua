@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'HenkW'
 description 'Advanced mining script for ESX'
-version '0.1.2' 
+version '0.1.3' 
 
 client_scripts {
 	'config.lua',

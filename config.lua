@@ -3,26 +3,29 @@ Config = {}
 -------------------
 -------UTILS-------
 -------------------
-Config.Debug = false
-Config.checkForUpdates = true
-Config.Webhook = "https://discord.com/api/webhooks/1224011727998419096/feWWd1yKUTEkMv648yn9rSxmrkZMbsPL0VaG5-8gK_7Mj4EszkIvyinJAXTE3GcbCqOz"
+Config.Debug = false -- Enable/Disable debug | It kinda spams console so be aware if you have a busy server
+Config.checkForUpdates = true -- Recommended to leave as 'true'
+Config.Webhook = "https://discord.com/api/webhooks/1224011727998419096/feWWd1yKUTEkMv648yn9rSxmrkZMbsPL0VaG5-8gK_7Mj4EszkIvyinJAXTE3GcbCqOz" -- Webhook for discord logging
+Config.MiningCooldown = 1 -- Cooldown in seconds
+Config.MaxMiningDistance = 1 -- Max mining distance
 
 -------------------
 -------PRICE-------
 -------------------
-Config.Prices = {
+Config.Prices = { -- Prices for the items that can be sold | Make sure items are also added to Config.Items
     ['steel'] = {45, 55},
     ['iron'] = {65, 75},
     ['copper'] = {50, 60},
     ['gold'] = {70, 95},
     ['emerald'] = {145, 170},
+    ['coal'] = {30, 40},
 }
 
 ------------------
 -------SHOP-------
 ------------------
-Config.ShopLocation = vector3(2948.41, 2741.81, 43.58)
-Config.ShopItems = {
+Config.ShopLocation = vector3(2948.41, 2741.81, 43.58) -- Location for buying equipment for mining
+Config.ShopItems = { -- Add or remove items needed for the shop
     ['water'] = {price = 150},
     ['bread'] = {price = 150},
     ['pickaxe'] = {price = 1000}
@@ -31,27 +34,28 @@ Config.ShopItems = {
 ------------------
 ---ITEMS / SELL---
 ------------------
-Config.Sell = vector3(-97.12, -1013.8, 26.3)
-Config.ChanceToGetItem = 22
+Config.Sell = vector3(-97.12, -1013.8, 26.3) -- Location for selling mined items
+Config.ChanceToGetItem = 40 -- If below '35' script will not work propperly, ill fix this is one of the upcomming updates | Default value = '40'
 Config.Items = {
     'steel',
     'iron',
     'copper',
     'emerald',
     'gold',
+    'coal',
 }
 
 -------------------
 -------OBJECT------
 -------------------
-Config.Objects = {
+Config.Objects = { -- Object for mining | I recommend leaving it as pickaxe :)
     ['pickaxe'] = 'prop_tool_pickaxe',
 }
 
 -----------------------
 -------LOCATIONS-------
 -----------------------
-Config.MiningPositions = {
+Config.MiningPositions = { -- All the mining positions can be added here
     {coords = vector3(2992.77, 2750.64, 42.78), heading = 209.29},
     {coords = vector3(2983.03, 2750.9, 42.02), heading = 214.08},
     {coords = vector3(2976.74, 2740.94, 43.63), heading = 246.21},
@@ -89,6 +93,12 @@ Strings = {
     ['you_sold'] = '~g~You sold %sx %s for %s',
     ['e_sell'] = '~y~Press ~INPUT_CONTEXT~ to sell all your mined items.',
     ['someone_close'] = '~r~There is a player too close to you!',
+    ['need_pickaxe'] = '~r~You need a pickaxe to mine.',
+    ['open_shop'] = 'Press ~INPUT_CONTEXT~ to open the shop.',
+    ['wait_mining'] = '~r~You have to wait before mining!',
+    ['zone'] = '~r~You are not in a valid mining area.',
+    ['buy_a'] = '~y~You purchased a ',
+    ['not_enough'] = '~r~You dont have enough money.',
     ['mining'] = 'Mining',
     ['sell_mine'] = 'Sell mined items'
 }
@@ -100,6 +110,12 @@ Strings = {
 --     ['you_sold'] = '~g~Je hebt %sx %s verkocht voor %s',
 --     ['e_sell'] = '~y~Druk op ~INPUT_CONTEXT~ om al je gemijnde items te verkopen.',
 --     ['someone_close'] = '~r~Er is een speler te dicht bij jou!',
+--     ['need_pickaxe'] = '~r~You need a pickaxe to mine.',
+--     ['open_shop'] = 'Press ~INPUT_CONTEXT~ to open the shop.',
+--     ['wait_mining'] = '~r~You have to wait before mining!',
+--     ['zone'] = '~r~You are not in a valid mining area.',
+--     ['buy_a'] = '~y~You purchased a ',
+--     ['not_enough'] = '~r~You dont have enough money.',
 --     ['mining'] = 'Mining',
 --     ['sell_mine'] = 'Verkoop gemijnde items'
 -- }
@@ -110,7 +126,13 @@ Strings = {
 --     ['mining_info'] = '~y~Appuyez sur ~INPUT_ATTACK~ pour couper, ~INPUT_FRONTEND_RRIGHT~ pour arrêter.',
 --     ['you_sold'] = '~g~Vous avez vendu %sx %s pour %s',
 --     ['e_sell'] = '~y~Appuyez sur ~INPUT_CONTEXT~ pour vendre tous vos articles minés.',
+--     ['need_pickaxe'] = '~r~You need a pickaxe to mine.',
+--     ['open_shop'] = 'Press ~INPUT_CONTEXT~ to open the shop.',
 --     ['someone_close'] = '~r~Il y a un joueur trop près de vous !',
+--     ['wait_mining'] = '~r~You have to wait before mining!',
+--     ['zone'] = '~r~You are not in a valid mining area.',
+--     ['buy_a'] = '~y~You purchased a ',
+--     ['not_enough'] = '~r~You dont have enough money.',
 --     ['mining'] = 'Minage',
 --     ['sell_mine'] = 'Vendre les articles minés'
 -- }
@@ -122,6 +144,12 @@ Strings = {
 --     ['you_sold'] = '~g~Sie haben %sx %s für %s verkauft',
 --     ['e_sell'] = '~y~Drücken Sie ~INPUT_CONTEXT~, um alle Ihre abgebauten Artikel zu verkaufen.',
 --     ['someone_close'] = '~r~Ein Spieler ist zu nah bei Ihnen!',
+--     ['need_pickaxe'] = '~r~You need a pickaxe to mine.',
+--     ['open_shop'] = 'Press ~INPUT_CONTEXT~ to open the shop.',
+--     ['wait_mining'] = '~r~You have to wait before mining!',
+--     ['zone'] = '~r~You are not in a valid mining area.',
+--     ['buy_a'] = '~y~You purchased a ',
+--     ['not_enough'] = '~r~You dont have enough money.',
 --     ['mining'] = 'Bergbau',
 --     ['sell_mine'] = 'Abgebaute Artikel verkaufen'
 -- }

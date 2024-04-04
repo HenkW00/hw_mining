@@ -2,6 +2,9 @@ ESX = exports["es_extended"]:getSharedObject()
 
 local mining = false
 
+-----------------------
+------MAIN THREAD------
+-----------------------
 Citizen.CreateThread(function()
     while ESX.GetPlayerData().job == nil do Wait(0) end
     for k, v in pairs(Config.MiningPositions) do
@@ -70,7 +73,7 @@ Citizen.CreateThread(function()
                                 ESX.ShowNotification(Strings['someone_close'])
                             end
                         else
-                            ESX.ShowNotification("~r~You need a pickaxe to mine.")
+                            ESX.ShowNotification(Strings['need_pickaxe'])
                         end
                     end)
                 end
@@ -80,6 +83,9 @@ Citizen.CreateThread(function()
     end
 end)
 
+-----------------------
+------SHOP THREAD------
+-----------------------
 Citizen.CreateThread(function()
     while true do
         local waitTime = 500 
@@ -88,7 +94,7 @@ Citizen.CreateThread(function()
         local distanceToShop = #(playerCoords - Config.ShopLocation) 
 
         if distanceToShop < 5 then
-            helpText("Press ~INPUT_CONTEXT~ to open the shop.") 
+            helpText(Strings['open_shop']) 
 
             if IsControlJustReleased(0, 38) then 
                 openShopMenu() 
@@ -101,6 +107,9 @@ Citizen.CreateThread(function()
     end
 end)
 
+---------------------
+------SHOP BLIP------
+---------------------
 Citizen.CreateThread(function()
     local shopBlip = AddBlipForCoord(Config.ShopLocation.x, Config.ShopLocation.y, Config.ShopLocation.z)
     SetBlipSprite(shopBlip, 52) 
@@ -110,10 +119,13 @@ Citizen.CreateThread(function()
     SetBlipAsShortRange(shopBlip, true)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Shop")
+    AddTextComponentSubstringPlayerName("Mining Shop")
     EndTextCommandSetBlipName(shopBlip)
 end)
 
+---------------------
+------OPEN SHOP------
+---------------------
 function openShopMenu()
     local elements = {}
     for item, data in pairs(Config.ShopItems) do
@@ -138,22 +150,34 @@ function openShopMenu()
     )
 end
 
+-----------------
+------MODEL------
+-----------------
 loadModel = function(model)
     while not HasModelLoaded(model) do Wait(0) RequestModel(model) end
     return model
 end
 
+---------------------
+------ANIMATION------
+---------------------
 loadDict = function(dict, anim)
     while not HasAnimDictLoaded(dict) do Wait(0) RequestAnimDict(dict) end
     return dict
 end
 
+------------------
+------HELPER------
+------------------
 helpText = function(msg)
     BeginTextCommandDisplayHelp('STRING')
     AddTextComponentSubstringPlayerName(msg)
     EndTextCommandDisplayHelp(0, false, true, -1)
 end
 
+-----------------------
+------CREATE BLIP------
+-----------------------
 addBlip = function(coords, sprite, colour, text)
     local blip = AddBlipForCoord(coords)
     SetBlipSprite(blip, sprite)
